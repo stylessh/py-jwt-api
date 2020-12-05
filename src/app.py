@@ -53,6 +53,21 @@ def decode_auth_token(auth_token):
 
 # routes
 
+# index
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({
+        "message": 'hello stranger!',
+
+        "api": {
+            "register": '/api/user/register',
+            "login": '/api/user/login',
+            "profile": '/api/user/profile',
+            "create_skill": '/api/skills/register',
+            "assign_skill": '/api/user/skills'
+        }
+    })
+
 # register user
 @app.route('/api/user/register', methods=['POST'])
 def signup_user():

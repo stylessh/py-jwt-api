@@ -56,6 +56,10 @@ def decode_auth_token(auth_token):
 # register user
 @app.route('/api/user/register', methods=['POST'])
 def signup_user():
+
+    if request.json['full_name'] == "" or request.json['username'] == "" or request.json['email'] == "" or request.json['country'] == "" or request.json['password'] == "":
+        return Response(response=str({"message": 'Please, fill all the fields.'}), status=401)
+
     new_user = User(
         full_name=request.json['full_name'],
         country=request.json['country'],
@@ -91,6 +95,10 @@ def signup_user():
 
 @app.route('/api/user/login', methods=['POST'])
 def signin_user():
+
+    if request.json['email'] == "" or request.json['password'] == "":
+        return Response(response=str({"message": 'Please, fill all the fields.'}), status=401)
+
     user = get_user_by_email(request.json['email'])
 
     if not user:
@@ -146,8 +154,9 @@ def assign_skill():
     user = User.objects.get(id=userId)
     skill = get_skill_by_name(request.json["skill"])
 
+    # if the skill doesn't exist
     if not skill:
-        Response(response=str({"message": 'Skill not found.'}), status=404)
+        return Response(response=str({"message": 'Skill not found.'}), status=404)
 
     # verifiyng if user already have the skill
     for skill_id in user.skills:

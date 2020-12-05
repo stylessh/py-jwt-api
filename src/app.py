@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
-from models.User import User
-from models.Skill import Skill
+from src.models.User import User
+from src.models.Skill import Skill
 from mongoengine import connect as db
 import bcrypt
 import jwt
@@ -196,7 +196,3 @@ def profile_user():
     }
 
     return jsonify(sendUser)
-
-
-if __name__ == "__main__":
-    app.run(port=3000, debug=True)
